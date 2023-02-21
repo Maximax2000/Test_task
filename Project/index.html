@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="project.css">
+    <title>Авторизация</title>
+</head>
+<body>
+    <form name="form_p">
+        <div class="form">
+            <h3 align="center">Форма авторизации</h3>
+            <input type="text" name="name" placeholder="Введите ваше имя"><p>
+            <input type="text" name="second_name" placeholder="Введите вашу фамилию"><p>
+            <button type="submit" class="button" name="b_send">Отправить</button><p>
+        </div>
+    </form>
+    <script>
+        let click = document.form_p;
+        click.addEventListener("submit", function (e){
+            e.preventDefault();
+
+            let n;
+            n = document.querySelector('[name="name"]').value;
+            let sn;
+            sn = document.querySelector('[name="second_name"]').value;
+
+            let xhr = new XMLHttpRequest();
+ 
+            let json = {
+                name: n,
+                second_name: sn
+            }
+
+            xhr.open('POST', 'action.php', true)
+
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')
+
+            xhr.send(JSON.stringify(json))
+            console.log(JSON.stringify(json))
+
+            xhr.onload = () => {
+            if(xhr.status >= 200 && xhr.status < 400) {
+                document.querySelector('.message').innerHTML = xhr.responseText;
+                }
+            else {
+                console.log("Error");
+            }
+            }})
+    </script>
+
+    <h3 class="message" align="center"></h3>
+    
+</body>
+</html>
